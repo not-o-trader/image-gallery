@@ -1,6 +1,8 @@
 import React from 'react';
 import PicEntry from './PicEntry.jsx';
 import SelectedPicEntry from './SelectedPicEntry.jsx';
+import PicListStyle from '../styled-components/PicListStyle.jsx';
+import ButtonStyle from '../styled-components/ButtonStyle.jsx';
 
 class PicList extends React.Component {
   constructor(props) {
@@ -12,11 +14,13 @@ class PicList extends React.Component {
     return (
       <div>
         <div className="buttonsRow">
-          <button type="button">"All({this.props.pics.length})"</button>
+          <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
+          <ButtonStyle>Photos({this.props.pics.length})</ButtonStyle>
+          <ButtonStyle>Videos(0)</ButtonStyle>
         </div>
-        <div className="picList">
-          {this.props.pics.map((pic) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry pic={pic}/> : <PicEntry pic={pic}/>)}
-        </div>
+        <PicListStyle>
+        {this.props.pics.map((pic) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry pic={pic}/> : <PicEntry pic={pic}/>)}
+        </PicListStyle>
       </div>
     )
   }

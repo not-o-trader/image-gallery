@@ -1,8 +1,9 @@
 import React from 'react';
+import SelectedPicStyle from '../styled-components/SelectedPicStyle.jsx';
 
 const SelectedPicEntry = (props) => (
   <div className="selectedPicEntry">
-    <h6>This will be different</h6>
+    <SelectedPicStyle src={props.pic.image_url} />
   </div>
 )
 
