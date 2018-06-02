@@ -6,6 +6,7 @@ import PicList from './components/PicList.jsx';
 import data from '../../data.json'
 import TitleStyle from './styled-components/TitleStyle.jsx';
 import Arrow from './components/Arrow.jsx';
+import MakeRowStyle from './styled-components/MakeRowStyle.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +40,8 @@ class App extends React.Component {
     const index = needReset ? lastIndex : currentIndex - 1;
 
     this.setState({
-      selectedPic: this.state.pics[index]
+      selectedPic: this.state.pics[index],
+      currentIndex: index
     });
   }
 
@@ -50,31 +52,37 @@ class App extends React.Component {
     const index = needReset ? 0 : currentIndex + 1;
 
     this.setState({
-      selectedPic: this.state.pics[index]
+      selectedPic: this.state.pics[index],
+      currentIndex: index
     });
 
   }
 
-  pictureClick (e) {
+  pictureClick (e, index) {
     this.setState({
-      selectedPic: e.target.value
+      selectedPic: this.state.pics[index],
+      currentIndex: index
     })
+  }
+
+  goFullScreen () {
+
   }
 
   render () {
     return (<div>
       <TitleStyle>{this.state.selectedPic.car_name}</TitleStyle>
-      <div className="currentimage">
-      <Arrow 
-        direction="left"
-        clickFunction= { this.previousPic.bind(this) }
-        glyph="&#9664;" />
-      <CurrentPic pic={this.state.selectedPic} />
-      <Arrow 
-        direction="right"
-        clickFunction= {this.nextPic.bind(this)}
-        glyph="&#9654;"/>
-      </div>
+      <MakeRowStyle>
+        <Arrow 
+          direction="left"
+          clickFunction= { this.previousPic.bind(this) }
+          glyph="&#9664;" />
+        <CurrentPic pic={this.state.selectedPic} />
+        <Arrow 
+          direction="right"
+          clickFunction= {this.nextPic.bind(this)}
+          glyph="&#9654;"/>
+      </MakeRowStyle>
       <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>
     </div>)
   }

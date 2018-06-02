@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const PicListStyle = styled.div`
+const MakeRowStyle = styled.div`
   display: flex;
   flex-direction: row;
 `
-export default PicListStyle;
+export default MakeRowStyle;
