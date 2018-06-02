@@ -17,7 +17,7 @@ class PicList extends React.Component {
           <button type="button">"All()"</button>
         </div>
         <div className="picList">
-          {props.pics.map(() => <PicEntry />)}
+          {props.pics.map((pic) => {if (pics.id === pic.id) {<SelectedPicEntry />} else { <PicEntry />}})}
         </div>
       </div>
     )

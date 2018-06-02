@@ -39,9 +39,11 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <h1>{this.state.selectedPic.car_name}</h1>
+      <div className="title">
+        <h1>{this.state.selectedPic.car_name}</h1>
+      </div>
       <CurrentPic pic={this.state.selectedPic} />
-      <PicList pics={this.state.pics} pic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>
+      <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>
     </div>)
   }
 }
