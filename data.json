@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "url": "download.jpeg",
+    "car_id": "1",
+    "name": "Cool Car"
+  },
+  {
+    "id": "2",
+    "url": "2018_mercedes_benz_e_class_angularfront.jpg",
+    "car_id": "1",
+    "name": "Cool Car"
+  },
+  {
+    "id": "3",
+    "url": "2016-Ford-Mustang-GT-burnout-red-tire-smoke.jpg",
+    "car_id": "1",
+    "name": "Cool Car"
+  },
+  {
+    "id": "4",
+    "url": "2019-mclaren-senna-hypercar-official-photos-and-info-news-car-and-driver-photo-698055-s-original.jpg",
+    "car_id": "1",
+    "name": "Cool Car"
+  },
+  {
+    "id": "5",
+    "url": "BMW-TA.jpg",
+    "car_id": "1",
+    "name": "Cool Car"
+  }
+]
