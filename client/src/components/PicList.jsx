@@ -3,7 +3,8 @@ import PicEntry from './PicEntry.jsx';
 import SelectedPicEntry from './SelectedPicEntry.jsx';
 import ButtonStyle from '../styled-components/ButtonStyle.jsx';
 import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
-import ArrowForCollection from './ArrowForCollection.jsx'
+import ArrowForCollection from './ArrowForCollection.jsx';
+import PageCountStyle from '../styled-components/PageCountStyle.jsx'
 
 class PicList extends React.Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class PicList extends React.Component {
     this.state = {
       currentPic: this.props.selectedPic,
       startIndex: 0,
-      endIndex: 6
+      endIndex: 6,
+      page: 1
     };
   }
 
@@ -20,12 +22,14 @@ class PicList extends React.Component {
       if (this.state.startIndex >= 7) {
         this.setState({
           startIndex: this.state.startIndex - 7,
-          endIndex: this.state.startIndex -1
+          endIndex: this.state.startIndex -1, 
+          page: this.state.page -1
         });
       } else {
         this.setState({
           startIndex: 0,
-          endIndex: 6
+          endIndex: 6,
+          page: this.state.page -1
         })
       }
     } 
@@ -37,11 +41,13 @@ class PicList extends React.Component {
         this.setState({
           startIndex: this.state.startIndex + 7,
           endIndex: this.state.endIndex + 7,
+          page: this.state.page + 1
         });
       } else {
           this.setState({
             startIndex: this.state.startIndex + 7,
-            endIndex: this.props.pics.length - 1
+            endIndex: this.props.pics.length - 1,
+            page: this.state.page + 1
           })
       }
     } 
@@ -53,11 +59,12 @@ class PicList extends React.Component {
     });
     return (
       <div>
-        <div className="buttonsRow">
+        <MakeRowStyle>
           <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
           <ButtonStyle>Photos({this.props.pics.length})</ButtonStyle>
           <ButtonStyle>Videos(0)</ButtonStyle>
-        </div>
+          <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
+        </MakeRowStyle>
         <MakeRowStyle>
           <ArrowForCollection 
             direction="left"
