@@ -1,23 +1,21 @@
 import React from 'react';
 import PicEntry from './PicEntry.jsx';
+import SelectedPicEntry from './SelectedPicEntry.jsx';
 
 class PicList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pics: props.pics,
-      selectedPic: props.pic
-    };
+    this.state = {};
   }
 
   render () {
     return (
       <div>
         <div className="buttonsRow">
-          <button type="button">"All()"</button>
+          <button type="button">"All({this.props.pics.length})"</button>
         </div>
         <div className="picList">
-          {props.pics.map((pic) => {if (pics.id === pic.id) {<SelectedPicEntry />} else { <PicEntry />}})}
+          {this.props.pics.map((pic) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry pic={pic}/> : <PicEntry pic={pic}/>)}
         </div>
       </div>
     )

@@ -20,14 +20,11 @@ class App extends React.Component {
         name: 'Tesla Roadster'
       }
     }).then((images) => {
-      console.log("Images: ", images);
+        console.log("Images: ", images);
         this.setState({
           pics: images.data,
           selectedPic: images.data[0]
         })
-      .catch((err) => {
-        console.log('Error fetching images');
-      });
     })
   }
 
