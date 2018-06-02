@@ -66,15 +66,15 @@ class PicList extends React.Component {
           <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
         </MakeRowStyle>
         <MakeRowStyle>
-          <ArrowForCollection 
+          {this.state.startIndex > 0 && <ArrowForCollection 
             direction="left"
             clickFunction= { this.previousPicCollection.bind(this) }
-            glyph="&#9664;" />
+            glyph="&#9664;" />}
           {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic}/> : <PicEntry key={pic.id} pic={pic} index={index} onClick={this.props.onClick}/>)}
-          <ArrowForCollection 
+          {this.state.endIndex < this.props.pics.length - 1 && <ArrowForCollection 
             direction="right"
             clickFunction= {this.nextPicCollection.bind(this)}
-            glyph="&#9654;"/>
+            glyph="&#9654;"/>}
         </MakeRowStyle>
       </div>
     )
