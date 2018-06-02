@@ -5,7 +5,7 @@ import CurrentPic from './components/CurrentPic.jsx';
 import PicList from './components/PicList.jsx';
 import data from '../../data.json'
 import TitleStyle from './styled-components/TitleStyle.jsx';
-import Arrow from './components/Arrow.jsx';
+import ArrowForCurrent from './components/ArrowForCurrent.jsx';
 import MakeRowStyle from './styled-components/MakeRowStyle.jsx';
 
 class App extends React.Component {
@@ -25,7 +25,6 @@ class App extends React.Component {
         name: 'Tesla Roadster'
       }
     }).then((images) => {
-        console.log("Images: ", images);
         this.setState({
           pics: images.data,
           selectedPic: images.data[0]
@@ -36,8 +35,8 @@ class App extends React.Component {
   previousPic () {
     const lastIndex = this.state.pics.length - 1;
     const { currentIndex } = this.state;
-    const needReset = currentIndex === 0;
-    const index = needReset ? lastIndex : currentIndex - 1;
+    const checkIfFirst = currentIndex === 0;
+    const index = checkIfFirst ? currentIndex : currentIndex - 1;
 
     this.setState({
       selectedPic: this.state.pics[index],
@@ -48,8 +47,8 @@ class App extends React.Component {
   nextPic () {
     const lastIndex = this.state.pics.length - 1;
     const { currentIndex } = this.state;
-    const needReset = currentIndex === lastIndex;
-    const index = needReset ? 0 : currentIndex + 1;
+    const checkIfLast = currentIndex === lastIndex;
+    const index = checkIfLast ? currentIndex : currentIndex + 1;
 
     this.setState({
       selectedPic: this.state.pics[index],
@@ -73,12 +72,12 @@ class App extends React.Component {
     return (<div>
       <TitleStyle>{this.state.selectedPic.car_name}</TitleStyle>
       <MakeRowStyle>
-        <Arrow 
+        <ArrowForCurrent 
           direction="left"
           clickFunction= { this.previousPic.bind(this) }
           glyph="&#9664;" />
         <CurrentPic pic={this.state.selectedPic} />
-        <Arrow 
+        <ArrowForCurrent 
           direction="right"
           clickFunction= {this.nextPic.bind(this)}
           glyph="&#9654;"/>

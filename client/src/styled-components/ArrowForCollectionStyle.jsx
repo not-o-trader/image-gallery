@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ArrowStyle = styled.div`
+const ArrowForCollectionStyle = styled.div`
   position: relative;
-  top: 50%;
+  top: 40%;
   cursor: pointer
 `
 
-export default ArrowStyle;
+export default ArrowForCollectionStyle;
