@@ -5,7 +5,7 @@ import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
 
 const SelectedPicEntry = (props) => (
   <MakeRowStyle>
-    <SelectedPicStyle key={props.pic.id} src={props.pic.image_url} />
+    <SelectedPicStyle key={props.pic.id} src={props.pic.media_url} />
     <ViewingLabelStyle>Viewing</ViewingLabelStyle>
   </MakeRowStyle>
 )

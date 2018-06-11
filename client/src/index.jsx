@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import CurrentPic from './components/CurrentPic.jsx';
 import PicList from './components/PicList.jsx';
-import data from '../../data.json'
 import TitleStyle from './styled-components/TitleStyle.jsx';
 import ArrowForCurrent from './components/ArrowForCurrent.jsx';
 import MakeRowStyle from './styled-components/MakeRowStyle.jsx';
@@ -12,8 +11,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pics: data,
-      selectedPic: data[0],
+      pics: [],
+      selectedPic: {},
       currentIndex: 0,
       lastIndex: 6
     }

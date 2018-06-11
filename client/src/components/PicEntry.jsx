@@ -3,7 +3,7 @@ import PicEntryStyle from '../styled-components/PicEntryStyle.jsx';
 
 const PicEntry = (props) => (
   <div className="picEntry">
-    <PicEntryStyle src={props.pic.image_url} onClick={(e) => props.onClick(e, props.index)}/>
+    <PicEntryStyle src={props.pic.media_url} onClick={(e) => props.onClick(e, props.index)}/>
   </div>
 )
 

@@ -4,7 +4,9 @@ import SelectedPicEntry from './SelectedPicEntry.jsx';
 import ButtonStyle from '../styled-components/ButtonStyle.jsx';
 import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
 import ArrowForCollection from './ArrowForCollection.jsx';
-import PageCountStyle from '../styled-components/PageCountStyle.jsx'
+import PageCountStyle from '../styled-components/PageCountStyle.jsx';
+import PicListStyle from '../styled-components/PicListStyle.jsx';
+import ButtonRowStyle from '../styled-components/ButtonRowStyle.jsx';
 
 class PicList extends React.Component {
   constructor(props) {
@@ -58,12 +60,12 @@ class PicList extends React.Component {
     });
     return (
       <div>
-        <MakeRowStyle>
+        <ButtonRowStyle>
           <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
           <ButtonStyle>Photos({this.props.pics.length})</ButtonStyle>
           <ButtonStyle>Videos(0)</ButtonStyle>
           <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
-        </MakeRowStyle>
+        </ButtonRowStyle>
         <MakeRowStyle>
           {this.state.startIndex > 0 && <ArrowForCollection 
             direction="left"
