@@ -1,8 +1,9 @@
 import React from 'react';
+import CurrentPicStyle from '../styled-components/CurrentPicStyle.jsx'
 
 const CurrentPic = (props) => (
   <div className="selectedImage">
-    <img src={props.pic.image_url}/>
+    <CurrentPicStyle src={props.pic.media_url}/>
   </div>
 )
 
