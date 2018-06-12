@@ -1,5 +1,5 @@
 import React from 'react';
-import PicEntry from './PicEntry.jsx';
+import ListEntry from './ListEntry.jsx';
 import SelectedPicEntry from './SelectedPicEntry.jsx';
 import ButtonStyle from '../styled-components/ButtonStyle.jsx';
 import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
@@ -14,7 +14,12 @@ class PicList extends React.Component {
     this.state = {
       startIndex: 0,
       endIndex: 6,
-      page: 1
+      page: 1,
+      collection: this.props.pics,
+      all: this.props.pics.length,
+      images: this.counter('images'),
+      videos: this.counter('videos'),
+      selected: 'all'
     };
   }
 
@@ -52,18 +57,45 @@ class PicList extends React.Component {
           })
       }
     } 
-  }  
+  }
+  
+  counter(type) {
+    let count = 0;
+      this.props.pics.forEach((pic) => {
+        if (pic.media_type === type) {
+          count += 1;
+        }
+      })
+    return count;
+  }
+
+  checkSelectedIndex() {
+    let selectedIndex = this.props.pics.indexOf(this.props.selectedPic);
+    if (selectedIndex > this.state.endIndex) {
+      this.setState({
+        startIndex: selectedIndex,
+        endIndex: selectedIndex + 6
+      })
+    } 
+  }
+
+  allButtonClick() {
+    if (this.state.selected !== 'all') {
+
+    }
+  }
 
   render () {
     let visiblePics = this.props.pics.filter((pic, index) => {
       return (index >= this.state.startIndex && index <= this.state.endIndex)
     });
+    
     return (
       <div>
         <ButtonRowStyle>
           <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
-          <ButtonStyle>Photos({this.props.pics.length})</ButtonStyle>
-          <ButtonStyle>Videos(0)</ButtonStyle>
+          <ButtonStyle>Photos({this.state.images})</ButtonStyle>
+          <ButtonStyle>Videos({this.state.videos})</ButtonStyle>
           <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
         </ButtonRowStyle>
         <MakeRowStyle>
@@ -71,7 +103,7 @@ class PicList extends React.Component {
             direction="left"
             clickFunction= { this.previousPicCollection.bind(this) }
             glyph="&#9664;" />}
-          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} /> : <PicEntry key={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
+          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} checkSelectedIndex={this.checkSelectedIndex()}/> : <ListEntry key={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
           {this.state.endIndex < this.props.pics.length - 1 && <ArrowForCollection 
             direction="right"
             clickFunction= {this.nextPicCollection.bind(this)}

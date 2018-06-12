@@ -2,11 +2,9 @@ import React from 'react';
 import ArrowForCollectionStyle from '../styled-components/ArrowForCollectionStyle.jsx'
 
 const ArrowForCollection = ({direction, clickFunction, glyph}) => (
-  <div
-    className={ `slide-arrow` }
-    onClick= { clickFunction }>
+  <div className={ `slide-arrow` }>
     <ArrowForCollectionStyle>
-    <button>
+    <button className={'button'}  onClick= { clickFunction }>
     {glyph}
     </button>
     </ArrowForCollectionStyle>
