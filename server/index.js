@@ -5,7 +5,7 @@ const app = express();
 
 const db = require('../db/config');
 
-const port = 3000;
+const port = 7000;
 
 app.use(parser.urlencoded({extended:true}));
 app.use(parser.json());
