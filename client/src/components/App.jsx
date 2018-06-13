@@ -7,6 +7,8 @@ import TitleStyle from '../styled-components/TitleStyle.jsx';
 import ArrowForCurrent from './ArrowForCurrent.jsx';
 import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
 
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
