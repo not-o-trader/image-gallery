@@ -19,7 +19,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    axios.get('/images', {
+    axios.get('http://localhost:7000/images', {
       params: {
         name: 'Tesla Roadster'
       }
@@ -28,31 +28,37 @@ class App extends React.Component {
           pics: images.data,
           selectedPic: images.data[0]
         })
+    }).catch((err) => {
+      console.log('Could not find images');
     })
   }
 
   previousPic () {
-    const lastIndex = this.state.pics.length - 1;
-    const { currentIndex } = this.state;
-    const checkIfFirst = currentIndex === 0;
-    const index = checkIfFirst ? currentIndex : currentIndex - 1;
-
-    this.setState({
-      selectedPic: this.state.pics[index],
-      currentIndex: index
-    });
+    if (this.state.pics.length > 0) {
+      const lastIndex = this.state.pics.length - 1;
+      const { currentIndex } = this.state;
+      const checkIfFirst = currentIndex === 0;
+      const index = checkIfFirst ? currentIndex : currentIndex - 1;
+  
+      this.setState({
+        selectedPic: this.state.pics[index],
+        currentIndex: index
+      });
+    }
   }
 
   nextPic () {
-    const lastIndex = this.state.pics.length - 1;
-    const { currentIndex } = this.state;
-    const checkIfLast = currentIndex === lastIndex;
-    const index = checkIfLast ? currentIndex : currentIndex + 1;
-
-    this.setState({
-      selectedPic: this.state.pics[index],
-      currentIndex: index
-    });
+    if (this.state.pics.length > 0) {
+      const lastIndex = this.state.pics.length - 1;
+      const { currentIndex } = this.state;
+      const checkIfLast = currentIndex === lastIndex;
+      const index = checkIfLast ? currentIndex : currentIndex + 1;
+  
+      this.setState({
+        selectedPic: this.state.pics[index],
+        currentIndex: index
+      });
+    }
 
   }
 
