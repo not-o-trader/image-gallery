@@ -17,8 +17,6 @@ class PicList extends React.Component {
       page: 1,
       collection: this.props.pics,
       all: this.props.pics.length,
-      images: this.counter('images'),
-      videos: this.counter('videos'),
       selected: 'all'
     };
   }
@@ -58,16 +56,6 @@ class PicList extends React.Component {
       }
     } 
   }
-  
-  counter(type) {
-    let count = 0;
-      this.props.pics.forEach((pic) => {
-        if (pic.media_type === type) {
-          count += 1;
-        }
-      })
-    return count;
-  }
 
   checkSelectedIndex() {
     let selectedIndex = this.props.pics.indexOf(this.props.selectedPic);
@@ -89,13 +77,26 @@ class PicList extends React.Component {
     let visiblePics = this.props.pics.filter((pic, index) => {
       return (index >= this.state.startIndex && index <= this.state.endIndex)
     });
+
+    const counter = (type) => {
+      let count = 0;
+      this.props.pics.forEach((pic) => {
+        if (pic.media_type === type) {
+          count += 1;
+        }
+      })
+      return count;
+    }
+
+    const videos = counter('video');
+    const images = counter('image');
     
     return (
       <div>
         <ButtonRowStyle>
           <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
-          <ButtonStyle>Photos({this.state.images})</ButtonStyle>
-          <ButtonStyle>Videos({this.state.videos})</ButtonStyle>
+          <ButtonStyle>Photos({images})</ButtonStyle>
+          <ButtonStyle>Videos({videos})</ButtonStyle>
           <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
         </ButtonRowStyle>
         <MakeRowStyle>

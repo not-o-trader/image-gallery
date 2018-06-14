@@ -1,15 +1,17 @@
 const express = require('express');
 const parser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const app = express();
 
 const db = require('../db/config');
 
-const port = 3000;
+const port = process.env.port || 7000;
 
+app.use(cors());
 app.use(parser.urlencoded({extended:true}));
 app.use(parser.json());
-app.use(express.static(path.join(__dirname, '../client/static')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.get('/images', (req, res) => {
   db.Image.findAll({
