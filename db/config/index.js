@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
 
-const db = new Sequelize('autotrader', 'jacobmetzinger', '', {
-  host: 'localhost',
+const { seed } = require('../../data.js');
+
+const db = new Sequelize('postgres', 'postgres', '', {
+  host: 'db',
   dialect: 'postgres',
 });
 
@@ -25,8 +27,11 @@ const Image = db.define('images', {
   media_type: Sequelize.STRING
 }, {timestamps: false})
 
-db.sync({ force: false })
-  .then(() => console.log('successfully synced database'))
+Image.sync({ force: true })
+  .then(() => {
+    Image.bulkCreate(seed)
+    console.log('successfully synced images')
+  })
   .catch(err => console.log('error syncing database ', err));
 
 
