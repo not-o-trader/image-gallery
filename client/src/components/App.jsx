@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    axios.get('http://localhost:7000/images', {
+    axios.get('http://ec2-18-191-161-74.us-east-2.compute.amazonaws.com:7000/images', {
       params: {
         name: 'Tesla Roadster'
       }
