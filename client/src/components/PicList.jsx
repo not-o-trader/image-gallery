@@ -5,7 +5,6 @@ import ButtonStyle from '../styled-components/ButtonStyle.jsx';
 import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
 import ArrowForCollection from './ArrowForCollection.jsx';
 import PageCountStyle from '../styled-components/PageCountStyle.jsx';
-import PicListStyle from '../styled-components/PicListStyle.jsx';
 import ButtonRowStyle from '../styled-components/ButtonRowStyle.jsx';
 
 class PicList extends React.Component {
@@ -17,8 +16,17 @@ class PicList extends React.Component {
       page: 1,
       collection: this.props.pics,
       all: this.props.pics.length,
-      selected: 'all'
+      selected: 'all',
+      selectedMedia: this.props.pics[0]
     };
+  }
+
+  componentDidMount () {
+    console.log(this.props.pics);
+    this.setState({
+      collection: this.props.pics,
+      selected: 'all'
+    });
   }
 
   previousPicCollection () {
@@ -69,12 +77,51 @@ class PicList extends React.Component {
 
   allButtonClick() {
     if (this.state.selected !== 'all') {
+      this.setState({
+        collection: this.props.pics,
+        selected: 'all',
+        startIndex: 0,
+        endIndex: 6,
+        selectedMedia: this.props.pics[0],
+        page: 1
+      });
+    }
+  }
 
+  imagesButtonClick() {
+    if (this.state.selected !== 'images') {
+      let pics = this.props.pics.filter((pic) => {
+        return pic.media_type === 'image';
+      });
+      this.setState({
+        collection: pics,
+        selected: 'images',
+        startIndex: 0,
+        endIndex: 6,
+        selectedMedia: pics[0],
+        page: 1
+      });
+    }
+  }
+
+  videosButtonClick() {
+    if (this.state.selected !== 'videos') {
+      let videos = this.props.pics.filter((video) => {
+        return video.media_type === 'video';
+      });
+      this.setState({
+        collection: videos,
+        selected: 'videos',
+        startIndex: 0,
+        endIndex: 6,
+        selectedMedia: videos[0],
+        page: 1
+      });
     }
   }
 
   render () {
-    let visiblePics = this.props.pics.filter((pic, index) => {
+    let visiblePics = this.state.collection.filter((pic, index) => {
       return (index >= this.state.startIndex && index <= this.state.endIndex)
     });
 
@@ -88,24 +135,25 @@ class PicList extends React.Component {
       return count;
     }
 
+    
     const videos = counter('video');
     const images = counter('image');
     
     return (
       <div>
         <ButtonRowStyle>
-          <ButtonStyle>All({this.props.pics.length})</ButtonStyle>
-          <ButtonStyle>Photos({images})</ButtonStyle>
-          <ButtonStyle>Videos({videos})</ButtonStyle>
-          <PageCountStyle> Page {this.state.page} of {Math.ceil(this.props.pics.length/7)} </ PageCountStyle>
+          <ButtonStyle onClick={() => this.allButtonClick()}>All({this.props.pics.length})</ButtonStyle>
+          <ButtonStyle onClick={() => this.imagesButtonClick()}>Photos({images})</ButtonStyle>
+          <ButtonStyle onClick={() => this.videosButtonClick()}>Videos({videos})</ButtonStyle>
+          <PageCountStyle> Page {this.state.page} of {Math.ceil(this.state.collection.length/7)} </ PageCountStyle>
         </ButtonRowStyle>
         <MakeRowStyle>
           {this.state.startIndex > 0 && <ArrowForCollection 
             direction="left"
             clickFunction= { this.previousPicCollection.bind(this) }
             glyph="&#9664;" />}
-          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} checkSelectedIndex={this.checkSelectedIndex()}/> : <ListEntry key={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
-          {this.state.endIndex < this.props.pics.length - 1 && <ArrowForCollection 
+          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} checkSelectedIndex={this.checkSelectedIndex()}/> : <ListEntry key={pic.id} id={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
+          {this.state.endIndex < this.state.collection.length - 1 && <ArrowForCollection 
             direction="right"
             clickFunction= {this.nextPicCollection.bind(this)}
             glyph="&#9654;"/>}

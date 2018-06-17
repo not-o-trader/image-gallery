@@ -15,22 +15,27 @@ class App extends React.Component {
       pics: [],
       selectedPic: {},
       currentIndex: 0,
-      lastIndex: 6
+      lastIndex: 6,
+      updated: true
     }
   }
 
   componentDidMount () {
-    axios.get('http://ec2-18-191-161-74.us-east-2.compute.amazonaws.com:7000/images', {
+    axios.get('http://18.191.161.74:7000/images', {
       params: {
         name: 'Tesla Roadster'
       }
     }).then((images) => {
         this.setState({
           pics: images.data,
-          selectedPic: images.data[0]
+          selectedPic: images.data[0],
+          updated: true
         })
     }).catch((err) => {
       console.log('Could not find images');
+    })
+    this.setState({
+      updated: false
     })
   }
 
@@ -63,7 +68,14 @@ class App extends React.Component {
 
   }
 
-  pictureClick (e, index) {
+  pictureClick (e, id) {
+    let index = 0;
+    console.log('pics= ', this.state.pics)
+    for (let i = 0; i < this.state.pics.length; i++) {
+      if (this.state.pics[i].id === id) {
+        index = i;
+      }
+    }
     this.setState({
       selectedPic: this.state.pics[index],
       currentIndex: index
@@ -84,8 +96,8 @@ class App extends React.Component {
           clickFunction= {this.nextPic.bind(this)}
           glyph="&#9654;"/>
       </MakeRowStyle>
-      <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>
-    </div>)
+      {this.state.updated && <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>}
+      </div>)
   }
 }
 

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const ButtonRowStyle = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 20px;
+  margin-left: 40px;
 `
 
 export default ButtonRowStyle;
