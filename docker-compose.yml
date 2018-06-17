@@ -1,11 +1,8 @@
 version: '3.1'
 services: 
   web:
-    build: .
+    image: jacobmetzinger/image-gallery
     command: npm start
-    volumes: 
-      - .:/image-gallery
-      - /image-gallery/node_modules
     ports:
       - "7000:7000"
     depends_on:
@@ -14,6 +11,9 @@ services:
       -DATABASE_URL: postgres://postgres@postgres/postgres
     links:
       - db
+  proxy-server:
+    image: jacobmetzinger/proxy-server
+    ports: "80:9000"
   db:
     image: postgres:9.6.2-alpine
     volumes:
