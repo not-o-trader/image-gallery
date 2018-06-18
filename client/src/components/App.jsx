@@ -16,7 +16,8 @@ class App extends React.Component {
       selectedPic: {},
       currentIndex: 0,
       lastIndex: 6,
-      updated: true
+      updated: true,
+      visibleMedia: []
     }
   }
 
@@ -29,6 +30,7 @@ class App extends React.Component {
         this.setState({
           pics: images.data,
           selectedPic: images.data[0],
+          visibleMedia: images.data,
           updated: true
         })
     }).catch((err) => {
@@ -68,9 +70,8 @@ class App extends React.Component {
 
   }
 
-  pictureClick (e, id) {
+  pictureClick (id) {
     let index = 0;
-    console.log('pics= ', this.state.pics)
     for (let i = 0; i < this.state.pics.length; i++) {
       if (this.state.pics[i].id === id) {
         index = i;
@@ -82,21 +83,38 @@ class App extends React.Component {
     })
   }
 
+  buttonSelect (entry) {
+    let index = 0;
+    for (let i = 0; i < this.state.visibleMedia.length; i++) {
+      if (this.state.visibleMedia[i].id === entry.id) {
+        index = i;
+      }
+    }
+    let newCollection = this.state.visibleMedia.filter((media) => {
+      return media.media_type === entry.media_type
+    });
+    this.setState({
+      selectedPic: this.state.visibleMedia[index],
+      currentIndex: 0,
+      pics: newCollection
+    })
+  }
+
   render () {
     return (<div>
       <TitleStyle>{this.state.selectedPic.car_name}</TitleStyle>
       <MakeRowStyle>
-        <ArrowForCurrent 
+        {this.state.currentIndex > 0 && <ArrowForCurrent 
           direction="left"
           clickFunction= { this.previousPic.bind(this) }
-          glyph="&#9664;" />
+          glyph="&#9664;" />}
         <CurrentPic pic={this.state.selectedPic} />
-        <ArrowForCurrent 
+        {this.state.currentIndex !== this.state.pics.length - 1 && <ArrowForCurrent 
           direction="right"
           clickFunction= {this.nextPic.bind(this)}
-          glyph="&#9654;"/>
+          glyph="&#9654;"/>}
       </MakeRowStyle>
-      {this.state.updated && <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>}
+      {this.state.updated && <PicList buttonSelect={this.buttonSelect.bind(this)} pics={this.state.visibleMedia} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>}
       </div>)
   }
 }

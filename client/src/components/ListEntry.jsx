@@ -11,7 +11,7 @@ const mediaEntryStyle = {
 }
 
 const ListEntry = (props) => (
-  <div className="picEntry" onClick={(e) => props.onClick(e, props.id)}>
+  <div className="picEntry" onClick={(e) => props.onClick(props.id)}>
     {props.pic.media_type === 'image' && <img src={props.pic.media_url} style={mediaEntryStyle} />}
     {props.pic.media_type === 'video' && <video src={props.pic.media_url} style={mediaEntryStyle} />}
   </div>
