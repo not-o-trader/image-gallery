@@ -68,9 +68,8 @@ class App extends React.Component {
 
   }
 
-  pictureClick (e, id) {
+  pictureClick (id) {
     let index = 0;
-    console.log('pics= ', this.state.pics)
     for (let i = 0; i < this.state.pics.length; i++) {
       if (this.state.pics[i].id === id) {
         index = i;
@@ -79,6 +78,22 @@ class App extends React.Component {
     this.setState({
       selectedPic: this.state.pics[index],
       currentIndex: index
+    })
+  }
+
+  buttonSelect (entry) {
+    let index = 0;
+    for (let i = 0; i < this.state.pics.length; i++) {
+      if (this.state.pics[i].id === entry.id) {
+        index = i;
+      }
+    }
+    let newCollection = this.state.pics.filter((media) => {
+      return media.media_type === entry.media_type
+    });
+    this.setState({
+      selectedPic: this.state.pics[index],
+      currentIndex: 0
     })
   }
 
@@ -96,7 +111,7 @@ class App extends React.Component {
           clickFunction= {this.nextPic.bind(this)}
           glyph="&#9654;"/>
       </MakeRowStyle>
-      {this.state.updated && <PicList pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>}
+      {this.state.updated && <PicList buttonSelect={this.buttonSelect.bind(this)} pics={this.state.pics} selectedPic={this.state.selectedPic} onClick={this.pictureClick.bind(this)}/>}
       </div>)
   }
 }

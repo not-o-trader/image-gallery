@@ -6,6 +6,7 @@ import MakeRowStyle from '../styled-components/MakeRowStyle.jsx';
 import ArrowForCollection from './ArrowForCollection.jsx';
 import PageCountStyle from '../styled-components/PageCountStyle.jsx';
 import ButtonRowStyle from '../styled-components/ButtonRowStyle.jsx';
+import SelectedButtonStyle from '../styled-components/SelectedButtonStyle.jsx';
 
 class PicList extends React.Component {
   constructor(props) {
@@ -14,55 +15,81 @@ class PicList extends React.Component {
       startIndex: 0,
       endIndex: 6,
       page: 1,
+      lastPage: '',
       collection: this.props.pics,
       all: this.props.pics.length,
       selected: 'all',
-      selectedMedia: this.props.pics[0]
+      selectedMedia: this.props.pics[0],
+      images: 0,
+      videos: 0,
     };
   }
 
   componentDidMount () {
-    console.log(this.props.pics);
     this.setState({
       collection: this.props.pics,
-      selected: 'all'
+      selected: 'all',
+      lastPage: Math.ceil(this.props.pics.length/7),
+      images: this.counter('image'),
+      videos: this.counter('video'),
+      allMedia: this.props.pics
     });
   }
 
-  previousPicCollection () {
-    if (this.state.startIndex !== 0) {
-      if (this.state.startIndex >= 7) {
-        this.setState({
-          startIndex: this.state.startIndex - 7,
-          endIndex: this.state.startIndex -1, 
-          page: this.state.page -1
-        });
-      } else {
-        this.setState({
-          startIndex: 0,
-          endIndex: 6,
-          page: this.state.page -1
-        })
+  counter (type) {
+    let count = 0;
+    this.props.pics.forEach((pic) => {
+      if (pic.media_type === type) {
+        count += 1;
       }
-    } 
+    })
+    return count;
+  }
+
+  previousPicCollection () {
+    this.setState({
+      startIndex: this.state.startIndex - 7,
+      endIndex: this.state.startIndex -1, 
+      page: this.state.page -1
+    });
+    // if (this.state.startIndex !== 0) {
+    //   if (this.state.startIndex >= 7) {
+    //     this.setState({
+    //       startIndex: this.state.startIndex - 7,
+    //       endIndex: this.state.startIndex -1, 
+    //       page: this.state.page -1
+    //     });
+    //   } else {
+    //     this.setState({
+    //       startIndex: 0,
+    //       endIndex: 6,
+    //       page: this.state.page -1
+    //     })
+    //   }
+    // } 
   }
 
   nextPicCollection () {
-    if (this.state.endIndex < this.props.pics.length-1) {
-      if (this.state.endIndex + 7 <= this.props.pics.length) {
-        this.setState({
-          startIndex: this.state.startIndex + 7,
-          endIndex: this.state.endIndex + 7,
-          page: this.state.page + 1
-        });
-      } else {
-          this.setState({
-            startIndex: this.state.startIndex + 7,
-            endIndex: this.props.pics.length - 1,
-            page: this.state.page + 1
-          })
-      }
-    } 
+    this.setState({
+      startIndex: this.state.startIndex + 7,
+      endIndex: this.state.endIndex + 7,
+      page: this.state.page + 1
+    });
+    // if (this.state.endIndex < this.props.pics.length-1) {
+    //   if (this.state.endIndex + 7 <= this.props.pics.length) {
+    //     this.setState({
+    //       startIndex: this.state.startIndex + 7,
+    //       endIndex: this.state.endIndex + 7,
+    //       page: this.state.page + 1
+    //     });
+    //   } else {
+    //       this.setState({
+    //         startIndex: this.state.startIndex + 7,
+    //         endIndex: this.props.pics.length - 1,
+    //         page: this.state.page + 1
+    //       })
+    //   }
+    // } 
   }
 
   checkSelectedIndex() {
@@ -85,6 +112,7 @@ class PicList extends React.Component {
         selectedMedia: this.props.pics[0],
         page: 1
       });
+      this.props.buttonSelect(this.props.pics[0])
     }
   }
 
@@ -99,11 +127,14 @@ class PicList extends React.Component {
         startIndex: 0,
         endIndex: 6,
         selectedMedia: pics[0],
-        page: 1
+        page: 1,
+        lastPage: Math.ceil(pics.length/7)
       });
+      this.props.buttonSelect(pics[0]);
     }
   }
-
+  
+  
   videosButtonClick() {
     if (this.state.selected !== 'videos') {
       let videos = this.props.pics.filter((video) => {
@@ -115,8 +146,10 @@ class PicList extends React.Component {
         startIndex: 0,
         endIndex: 6,
         selectedMedia: videos[0],
-        page: 1
+        page: 1,
+        lastPage: Math.ceil(videos.length/7)
       });
+      this.props.buttonSelect(videos[0])
     }
   }
 
@@ -125,35 +158,35 @@ class PicList extends React.Component {
       return (index >= this.state.startIndex && index <= this.state.endIndex)
     });
 
-    const counter = (type) => {
-      let count = 0;
-      this.props.pics.forEach((pic) => {
-        if (pic.media_type === type) {
-          count += 1;
-        }
-      })
-      return count;
-    }
+    // const counter = (type) => {
+    //   let count = 0;
+    //   this.props.pics.forEach((pic) => {
+    //     if (pic.media_type === type) {
+    //       count += 1;
+    //     }
+    //   })
+    //   return count;
+    // }
 
     
-    const videos = counter('video');
-    const images = counter('image');
+    // const videos = counter('video');
+    // const images = counter('image');
     
     return (
       <div>
         <ButtonRowStyle>
-          <ButtonStyle onClick={() => this.allButtonClick()}>All({this.props.pics.length})</ButtonStyle>
-          <ButtonStyle onClick={() => this.imagesButtonClick()}>Photos({images})</ButtonStyle>
-          <ButtonStyle onClick={() => this.videosButtonClick()}>Videos({videos})</ButtonStyle>
-          <PageCountStyle> Page {this.state.page} of {Math.ceil(this.state.collection.length/7)} </ PageCountStyle>
+          {this.state.selected === "all" ? <SelectedButtonStyle onClick={() => this.allButtonClick()}>All({this.props.pics.length})</SelectedButtonStyle> : <ButtonStyle onClick={() => this.allButtonClick()}>All({this.props.pics.length})</ButtonStyle>}
+          {this.state.selected === "images" ? <SelectedButtonStyle onClick={() => this.imagesButtonClick()}>Photos({this.state.images})</SelectedButtonStyle> : <ButtonStyle onClick={() => this.imagesButtonClick()}>Photos({this.state.images})</ButtonStyle>}
+          {this.state.selected === "videos" ? <SelectedButtonStyle onClick={() => this.videosButtonClick()}>Videos({this.state.videos})</SelectedButtonStyle> : <ButtonStyle onClick={() => this.videosButtonClick()}>Videos({this.state.videos})</ButtonStyle>}
+          <PageCountStyle> Page {this.state.page} of {this.state.lastPage} </ PageCountStyle>
         </ButtonRowStyle>
         <MakeRowStyle>
-          {this.state.startIndex > 0 && <ArrowForCollection 
+          {this.state.page > 1 && <ArrowForCollection 
             direction="left"
             clickFunction= { this.previousPicCollection.bind(this) }
             glyph="&#9664;" />}
-          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} checkSelectedIndex={this.checkSelectedIndex()}/> : <ListEntry key={pic.id} id={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
-          {this.state.endIndex < this.state.collection.length - 1 && <ArrowForCollection 
+          {visiblePics.map((pic, index) => pic.id === this.props.selectedPic.id ? <SelectedPicEntry key={pic.id} pic={pic} checkSelectedIndex={() => this.checkSelectedIndex()}/> : <ListEntry key={pic.id} id={pic.id} pic={pic} index={index + this.state.startIndex} onClick={this.props.onClick}/>)}
+          {this.state.page !== this.state.lastPage && <ArrowForCollection 
             direction="right"
             clickFunction= {this.nextPicCollection.bind(this)}
             glyph="&#9654;"/>}
