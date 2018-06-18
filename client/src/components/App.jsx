@@ -17,7 +17,8 @@ class App extends React.Component {
       currentIndex: 0,
       lastIndex: 6,
       updated: true,
-      visibleMedia: []
+      visibleMedia: [],
+      selected: "all"
     }
   }
 

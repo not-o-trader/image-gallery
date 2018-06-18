@@ -52,21 +52,6 @@ class PicList extends React.Component {
       endIndex: this.state.startIndex -1, 
       page: this.state.page -1
     });
-    // if (this.state.startIndex !== 0) {
-    //   if (this.state.startIndex >= 7) {
-    //     this.setState({
-    //       startIndex: this.state.startIndex - 7,
-    //       endIndex: this.state.startIndex -1, 
-    //       page: this.state.page -1
-    //     });
-    //   } else {
-    //     this.setState({
-    //       startIndex: 0,
-    //       endIndex: 6,
-    //       page: this.state.page -1
-    //     })
-    //   }
-    // } 
   }
 
   nextPicCollection () {
@@ -75,21 +60,6 @@ class PicList extends React.Component {
       endIndex: this.state.endIndex + 7,
       page: this.state.page + 1
     });
-    // if (this.state.endIndex < this.props.pics.length-1) {
-    //   if (this.state.endIndex + 7 <= this.props.pics.length) {
-    //     this.setState({
-    //       startIndex: this.state.startIndex + 7,
-    //       endIndex: this.state.endIndex + 7,
-    //       page: this.state.page + 1
-    //     });
-    //   } else {
-    //       this.setState({
-    //         startIndex: this.state.startIndex + 7,
-    //         endIndex: this.props.pics.length - 1,
-    //         page: this.state.page + 1
-    //       })
-    //   }
-    // } 
   }
 
   checkSelectedIndex() {
@@ -110,7 +80,8 @@ class PicList extends React.Component {
         startIndex: 0,
         endIndex: 6,
         selectedMedia: this.props.pics[0],
-        page: 1
+        page: 1,
+        lastPage: Math.ceil(this.props.pics.length/7) 
       });
       this.props.buttonSelect(this.props.pics[0])
     }
@@ -157,20 +128,6 @@ class PicList extends React.Component {
     let visiblePics = this.state.collection.filter((pic, index) => {
       return (index >= this.state.startIndex && index <= this.state.endIndex)
     });
-
-    // const counter = (type) => {
-    //   let count = 0;
-    //   this.props.pics.forEach((pic) => {
-    //     if (pic.media_type === type) {
-    //       count += 1;
-    //     }
-    //   })
-    //   return count;
-    // }
-
-    
-    // const videos = counter('video');
-    // const images = counter('image');
     
     return (
       <div>
