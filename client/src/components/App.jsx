@@ -17,12 +17,13 @@ class App extends React.Component {
       currentIndex: 0,
       lastIndex: 6,
       updated: true,
-      visibleMedia: []
+      visibleMedia: [],
+      selected: "all"
     }
   }
 
   componentDidMount () {
-    axios.get('http://18.191.161.74:7000/images', {
+    axios.get('/images', {
       params: {
         name: 'Tesla Roadster'
       }
