@@ -23,7 +23,7 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    axios.get('http://18.191.161.74:7000/images', {
+    axios.get('/images', {
       params: {
         name: 'Tesla Roadster'
       }
