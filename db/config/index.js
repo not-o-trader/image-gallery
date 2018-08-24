@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 
 const { seed } = require('../../data.js');
 
-const db = new Sequelize('postgres', 'postgres', '', {
-  host: 'db',
+const db = new Sequelize('autotrader', 'jacobmetzinger', '', {
+  host: 'localhost',
   dialect: 'postgres',
 });
 
